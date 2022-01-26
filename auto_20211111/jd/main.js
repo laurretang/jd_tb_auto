@@ -22,6 +22,8 @@ var finished_task_num = new Array();
 var current_task_num = 0;
 // 浏览就返回标记
 var isBackFlag = false;
+// 浏览8s才返回标记
+var is8sBackFlag = false;
 // 小程序标记
 var isXcx = false;
 // 品牌墙任务标记
@@ -276,6 +278,12 @@ function viewTask(flag) {
             viewAndFollow();
             isBackFlag = false;
             break;
+        } else if (is8sBackFlag) {
+            console.info("进入浏览8s才返回任务");
+            sleep(8000);
+            viewAndFollow();
+            is8sBackFlag = false;
+            break;
         } else if (isXcx) {
             console.info("进入小程序任务");
             // 重置计时
@@ -415,6 +423,8 @@ function getNeedSelector() {
                 // 如果是浏览就返回的任务，将标记设为true
                 isBackFlag = (TASK_LIST[i].indexOf("浏览可得") >= 0 || TASK_LIST[i].indexOf("浏览并关注可得2000") >= 0 
                 || TASK_LIST[i].indexOf("玩AR游戏可得") >= 0 || TASK_LIST[i].indexOf("浏览并关注可得8000") >= 0 ) ? true : false;
+                // 如果是浏览8s才返回的任务，将其标记设为true
+                is8sBackFlag = (TASK_LIST[i].indexOf("浏览8s") >= 0 ) ? true : false;
                 // 如果是小程序任务，将小程序标记设为true
                 isXcx = (TASK_LIST[i].indexOf("小程序") >= 0) ? true : false;
                 // 如果是品牌墙任务，将背景墙任务标记为true
